@@ -1,0 +1,15 @@
+enclave {
+    include "sgx_eid.h"
+    include "sgx_dh.h"
+    include "sgx_tseal.h"
+
+    trusted {
+        public void Enclave2_ecall_session_request([out] sgx_dh_msg1_t *dh_msg1);
+        public void Enclave2_ecall_exchange_report([in] sgx_dh_msg2_t *dh_msg2, [out] sgx_dh_msg3_t *dh_msg3, [out] sgx_key_128bit_t *dh_aek);
+        public void Enclave2_ecall_receive_message([in, size=message_size] sgx_aes_gcm_data_t* message, size_t message_size);
+    };
+
+    untrusted {
+        void ocall_print([in, string] const char* data);
+    };
+};

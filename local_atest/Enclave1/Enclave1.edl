@@ -1,0 +1,16 @@
+enclave {
+    include "sgx_eid.h"
+    include "sgx_dh.h"
+    include "sgx_tseal.h"
+
+    trusted {
+        public void Enclave1_ecall_send_message(sgx_enclave_id_t src_enclave_id, sgx_enclave_id_t dest_enclave_id, [in, string] const char *message);
+    };
+
+    untrusted {
+        void ocall_print([in, string] const char* data);
+        void Enclave1_ocall_session_request(sgx_enclave_id_t dest_enclave_id, [out] sgx_dh_msg1_t *dh_msg1);
+        void Enclave1_ocall_exchange_report(sgx_enclave_id_t dest_enclave_id, [in] sgx_dh_msg2_t *dh_msg2, [out] sgx_dh_msg3_t *dh_msg3, [out] sgx_key_128bit_t *dh_aek);
+        void Enclave1_ocall_send_request(sgx_enclave_id_t dest_enclave_id, [in, size=message_size] sgx_aes_gcm_data_t* message, size_t message_size);
+    };
+};

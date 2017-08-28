@@ -1,0 +1,10 @@
+enclave {
+    trusted {
+        public void ecall_teste([in, string] char *c);
+    };
+
+    untrusted {
+        void ocall_print([in, string] char *c);
+    };
+};
+
